@@ -1,0 +1,369 @@
+CMPT 120 - Even/odd graphical game
+Game developer: Diana Cukierman
+
+SAMPLE RUN 1
+Several games, all SOLO style, no validation.
+Check how the number of turns, winning/losing is calculated. 
+Check the messages to the user, the information provided to the user.
+Notice that the graphic part is not yet done in this sample run, 
+but the appropriate graphic functions are already called at the correct moment.
+
+===============================================================================
+
+
+ Dear player! Welcome to the "Even/Odd Colorful Graphical" game 
+ ============================================================== 
+
+With this system you will be able to play as many games as you want!
+The objective of this game is that rows in the board
+add to an even number and all columns in the board add to an odd number
+For each game: 
+- you will be able to choose to play 'SOLO' or against the computer ('AI'),
+- you will be able to choose an initial board,
+- at the end of each game you will win (or lose) points, and
+- you will see a graphical representation of some game related values.
+Enjoy!
+
+
+Would  you like to play? (y/n):  ==> y
+
+Game: 1
+========
+
+
+Which style would you want to play ('SOLO' or 'AI')):  ==> solo
+
+
+Which initial board do you want to use(0,1,2 or 3):  ==> 0
+
+The board is
+-------------
+
+(initial board)
+
+           Col 0   Col 1   Col 2   
+
+Row 0        0       0       0
+
+Row 1        0       0       0
+
+Row 2        0       0       0
+
+You will have up to 4 turns
+
+
+You  have 4 turns left...
+
+User, where do you want your value? (row 99 - no more turns)
+
+row?  (>=0 and <= 2) ==> 0
+
+col?  (>=0 and <= 2) ==> 0
+
+value (0 to 50):  ==> 25
+
+The board is
+-------------
+
+(after user played)
+
+           Col 0   Col 1   Col 2   
+
+Row 0        25       0       0
+
+Row 1        0       0       0
+
+Row 2        0       0       0
+
+You  have 3 turns left...
+
+User, where do you want your value? (row 99 - no more turns)
+
+row?  (>=0 and <= 2) ==> 1
+
+col?  (>=0 and <= 2) ==> 2
+
+value (0 to 50):  ==> 44
+
+The board is
+-------------
+
+(after user played)
+
+           Col 0   Col 1   Col 2   
+
+Row 0        25       0       0
+
+Row 1        0       0       44
+
+Row 2        0       0       0
+
+You  have 2 turns left...
+
+User, where do you want your value? (row 99 - no more turns)
+
+row?  (>=0 and <= 2) ==> 2
+
+col?  (>=0 and <= 2) ==> 1
+
+value (0 to 50):  ==> 23
+
+The board is
+-------------
+
+(after user played)
+
+           Col 0   Col 1   Col 2   
+
+Row 0        25       0       0
+
+Row 1        0       0       44
+
+Row 2        0       23       0
+
+You  have 1 turns left...
+
+User, where do you want your value? (row 99 - no more turns)
+
+row?  (>=0 and <= 2) ==> 1
+
+col?  (>=0 and <= 2) ==> 2
+
+value (0 to 50):  ==> 33
+
+The board is
+-------------
+
+(after user played)
+
+           Col 0   Col 1   Col 2   
+
+Row 0        25       0       0
+
+Row 1        0       0       33
+
+Row 2        0       23       0
+
+You reached the maximum turns possible, the game is over!
+
+Totals for this game
+--------------------
+
+
+The points resulting from this game are: 0
+Points were calculated as:
+  the sum of all even values in the board
+  divided by the number of turns played(4)
+
+So sorry, User, you lost this game!
+Not all rows add to even numbers or not all cols add to odd numbers!
+You will be substracted 0 points from your total
+Your points so far are: 0
+
+ !!!  still to develop... plotting one game
+
+
+Would  you like to play another game? (y/n):  ==> y
+
+Game: 2
+========
+
+
+Which style would you want to play ('SOLO' or 'AI')):  ==> solo
+
+
+Which initial board do you want to use(0,1,2 or 3):  ==> 1
+
+The board is
+-------------
+
+(initial board)
+
+           Col 0   Col 1   Col 2   
+
+Row 0        0       3       2
+
+Row 1        1       5       4
+
+Row 2        0       0       1
+
+You will have up to 4 turns
+
+
+You  have 4 turns left...
+
+User, where do you want your value? (row 99 - no more turns)
+
+row?  (>=0 and <= 2) ==> 0
+
+col?  (>=0 and <= 2) ==> 1
+
+value (0 to 50):  ==> 44
+
+The board is
+-------------
+
+(after user played)
+
+           Col 0   Col 1   Col 2   
+
+Row 0        0       44       2
+
+Row 1        1       5       4
+
+Row 2        0       0       1
+
+You  have 3 turns left...
+
+User, where do you want your value? (row 99 - no more turns)
+
+row?  (>=0 and <= 2) ==> 2
+
+col?  (>=0 and <= 2) ==> 1
+
+value (0 to 50):  ==> 33
+
+The board is
+-------------
+
+(after user played)
+
+           Col 0   Col 1   Col 2   
+
+Row 0        0       44       2
+
+Row 1        1       5       4
+
+Row 2        0       33       1
+
+You  have 2 turns left...
+
+User, where do you want your value? (row 99 - no more turns)
+
+row?  (>=0 and <= 2) ==> 99
+Since you didn't want to update more values, the game is over
+
+Totals for this game
+--------------------
+
+
+The points resulting from this game are: 25
+Points were calculated as:
+  the sum of all even values in the board
+  divided by the number of turns played(2)
+
+So sorry, User, you lost this game!
+Not all rows add to even numbers or not all cols add to odd numbers!
+You will be substracted 25 points from your total
+Your points so far are: -25
+
+ !!!  still to develop... plotting one game
+
+
+Would  you like to play another game? (y/n):  ==> y
+
+Game: 3
+========
+
+
+Which style would you want to play ('SOLO' or 'AI')):  ==> solo
+
+
+Which initial board do you want to use(0,1,2 or 3):  ==> 1
+
+The board is
+-------------
+
+(initial board)
+
+           Col 0   Col 1   Col 2   
+
+Row 0        0       3       2
+
+Row 1        1       5       4
+
+Row 2        0       0       1
+
+You will have up to 4 turns
+
+
+You  have 4 turns left...
+
+User, where do you want your value? (row 99 - no more turns)
+
+row?  (>=0 and <= 2) ==> 0
+
+col?  (>=0 and <= 2) ==> 1
+
+value (0 to 50):  ==> 44
+
+The board is
+-------------
+
+(after user played)
+
+           Col 0   Col 1   Col 2   
+
+Row 0        0       44       2
+
+Row 1        1       5       4
+
+Row 2        0       0       1
+
+You  have 3 turns left...
+
+User, where do you want your value? (row 99 - no more turns)
+
+row?  (>=0 and <= 2) ==> 0
+
+col?  (>=0 and <= 2) ==> 1
+
+value (0 to 50):  ==> 0
+
+The board is
+-------------
+
+(after user played)
+
+           Col 0   Col 1   Col 2   
+
+Row 0        0       0       2
+
+Row 1        1       5       4
+
+Row 2        0       0       1
+
+You  have 2 turns left...
+
+User, where do you want your value? (row 99 - no more turns)
+
+row?  (>=0 and <= 2) ==> 99
+Since you didn't want to update more values, the game is over
+
+Totals for this game
+--------------------
+
+
+The points resulting from this game are: 3
+Points were calculated as:
+  the sum of all even values in the board
+  divided by the number of turns played(2)
+
+So sorry, User, you lost this game!
+Not all rows add to even numbers or not all cols add to odd numbers!
+You will be substracted 3 points from your total
+Your points so far are: -28
+
+ !!!  still to develop... plotting one game
+
+
+Would  you like to play another game? (y/n):  ==> n
+
+TOTALS ALL GAMES
+Total points user in all games:  -28
+Total games the user won:  0
+Total games the computer won:  3
+
+ !!! still to develop... plotting all games
+
+Bye!!
