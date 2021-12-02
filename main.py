@@ -1,6 +1,5 @@
 total_points = 0
-
-file = open("board0.csv") 
+total_game_counter = 1
 
 table_data = {
     "row_0": [],
@@ -8,7 +7,7 @@ table_data = {
     "row_2": []
 }
 
-def get_initial_data():
+def get_initial_data(file):
     file.readline()
     counter = 0
     for i in file:
@@ -57,17 +56,23 @@ print("Enjoy!")
 print("\n"*2)
 
 start_game = input("Would you like to play (y/n) ==> ")
-
 play_game = False
 
 if start_game == "y":
     play_game = True
+    print("\nGame: {}\n========".format(total_game_counter))
 else:
     play_game = False
 
+game_style = input("What style would you want to play ('SOLO or 'AI'): ==> ")
+print("\n")
+initial_board = input("Which initial board do you want to use (0, 1, 2, or 3): ==> ") 
+
+file = open("board{}.csv".format(initial_board))
+
 if play_game == True:
     while play_game == True:
-        get_initial_data()
+        get_initial_data(file)
         display_table(True)
 
         for i in range(4,0,-1):
@@ -165,6 +170,7 @@ if play_game == True:
         if continue_playing != "y":
             play_game = False
         else:
+            total_game_counter += 1
             print("\n"*2)
             file.seek(1)
 
