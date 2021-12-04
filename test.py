@@ -7,8 +7,8 @@ table_data = {
 }
 
 user_stats = {
-    "total_points": None,
-    "current_points": None, 
+    "total_points": 0,
+    "current_points": 0, 
 }
 
 def main(game_number):
@@ -29,9 +29,11 @@ def main(game_number):
             #Updates board with player input
             def finish_game(turns):
                 game_result = helper.check_game_result(table_data) 
+                
                 current_game_points = helper.calculate_game_points(turns, table_data)
-                helper.display_game_result(current_game_points, game_result) 
-
+                user_stats["total_points"] += current_game_points
+                helper.display_game_result(current_game_points, game_result, user_stats["total_points"]) 
+                
             for i in range(4,0,-1):
                 print("User, where do you want your value? (row 99 - no more turns)\n")
                 row_input = input("row? (>= 0 and <= 2) ==> ")
