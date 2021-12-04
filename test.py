@@ -3,12 +3,14 @@ import helper
 table_data = {
     "row_0": [],
     "row_1": [],
-    "row_2": []
+    "row_2": [],
+    "row_3": [], 
 }
 
 user_stats = {
     "total_points": 0,
-    "current_points": 0, 
+    "plr_wins": 0,
+    "comp_wins": 0,
 }
 
 def main(game_number):
@@ -31,7 +33,13 @@ def main(game_number):
                 game_result = helper.check_game_result(table_data) 
                 
                 current_game_points = helper.calculate_game_points(turns, table_data)
-                user_stats["total_points"] += current_game_points
+                if game_result:
+                    user_stats["plr_wins"] += 1
+                    user_stats["total_points"] += current_game_points
+                else:
+                    user_stats["comp_wins"] += 1
+                    user_stats["total_points"] -= current_game_points
+
                 helper.display_game_result(current_game_points, game_result, user_stats["total_points"]) 
                 
             for i in range(4,0,-1):
@@ -54,16 +62,15 @@ def main(game_number):
                     print("\nYou have reached the maximum turns possible, the game is over!" )
                     finish_game(4)
 
-            play_again = input("Would you like to play another game (y/n): ==> ")
+            play_again = input("\nWould you like to play another game (y/n): ==> ")
             play_again = play_again.strip().lower()
             if play_again == "y":
                 main(game_number+1) 
             else:
+                helper.display_totals(user_stats)
                 return
 
                 
-               
-
 #Updates dictionary with values from csv file
 def store_initial_file_data(file):
     file.readline()

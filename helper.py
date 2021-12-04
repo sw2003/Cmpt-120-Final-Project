@@ -57,12 +57,20 @@ def display_board(table_data, is_initial):
         print("\n(after user played)\n")      
     print(" "*11 + " Col 0   Col 1   Col 2") 
 
-    for i in range(3): 
+    for i in range(len(table_data["row_0"])): 
         row_data = table_data["row_" +str(i)]
-        row_data_col_1 = row_data[0] 
-        row_data_col_2 = row_data[1]
-        row_data_col_3 = row_data[2] 
-        print("Row " + str(i) + " "*9 + row_data_col_1 + " "*7 + row_data_col_2 + " "*7 + row_data_col_3 + "\n")
+
+        base_string = "Row " + str(i) + " "*9
+
+        for j in range(0, len(table_data["row_0"])):
+            base_string += row_data[j] + " "*7 
+
+        print(base_string + "\n")
+
+        #row_data_col_1 = row_data[0] 
+        #row_data_col_2 = row_data[1]
+        #row_data_col_3 = row_data[2] 
+        #print("Row " + str(i) + " "*9 + row_data_col_1 + " "*7 + row_data_col_2 + " "*7 + row_data_col_3 + "\n")
 
     if is_initial == True:
         print("You will have up to 4 turns" + "\n"*2)
@@ -72,6 +80,7 @@ def check_game_result(data):
     win = False
 
     col_data = [
+        [],
         [],
         [],
         []
@@ -140,11 +149,16 @@ def display_game_result(points, game_result, total_points):
         print("You will be added {} points from your total".format(points))
         print("Your points so far are {}".format(total_points))
     else:
-        print("So sorry, User you lost this game!")
+        print("\nSo sorry, User you lost this game!")
         print("Not all rows add to even numbers or not all cols add to odd numbers!")
         print("You will be substracted {} points from your total".format(points))
         print("Your points so far are: {}".format(total_points))
 
+def display_totals(user_stats):
+    print("\nTOTALS ALL GAMES")
+    print("Total points user in all games: {}".format(user_stats["total_points"]))
+    print("Total games the user won: {}".format(user_stats["plr_wins"]))
+    print("Total games the computer won: {}".format(user_stats["comp_wins"]))
 
 
 
