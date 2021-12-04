@@ -140,7 +140,7 @@ def display_game_result(points, game_result, total_points):
     else:
         print("So sorry, User you lost this game!")
         print("Not all rows add to even numbers or not all cols add to odd numbers!")
-        print("You will be substracted {} points from your total").format(points)
+        print("You will be substracted {} points from your total".format(points))
         print("Your points so far are: {}".format(total_points))
 
 
