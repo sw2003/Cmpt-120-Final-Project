@@ -54,6 +54,13 @@ def main(game_number):
                     print("\nYou have reached the maximum turns possible, the game is over!" )
                     finish_game(4)
 
+            play_again = input("Would you like to play another game (y/n): ==> ")
+            play_again = play_again.strip().lower()
+            if play_again == "y":
+                main(game_number+1) 
+            else:
+                return
+
                 
                
 

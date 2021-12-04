@@ -14,9 +14,11 @@ def give_start_instructions():
     print("\n"*2)
 
 def request_user_actions(game_number):
-    start = input("Would you like to play (y/n) ==> ")
-    start = start.strip().lower() 
-    if start == "y":
+    start = ""
+    if game_number == 1:
+        start = input("Would you like to play (y/n) ==> ")
+        start = start.strip().lower() 
+    if start == "y" or game_number != 1:
         user_actions = []
 
         print("\nGame: {}\n========".format(game_number))
