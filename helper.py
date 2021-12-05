@@ -49,13 +49,22 @@ def request_user_actions(game_number):
         print("\nuser has decided not to play the game\n")
         return False
 
-def display_board(table_data, is_initial):
+def display_board(table_data, display_code, ai_data):
     print("\nThe board is\n" + "-"*10)
-    if is_initial:
+    if display_code == "initial":
         print("\n(initial board)\n")
-    else:
-        print("\n(after user played)\n")      
-    print(" "*11 + " Col 0   Col 1   Col 2") 
+    elif display_code == "after_user_played":
+        print("\n(after user played)\n")
+    elif display_code == "ai":
+        print("\n(after computer played in (row, col) {} with value: {})\n".format(ai_data[0], ai_data[1]))
+
+    base_row_string = " "*12
+    row_length = len(table_data["row_0"])
+    for i in range(row_length):
+        base_row_string += "Col {}   ".format(i)
+
+    print(base_row_string)
+    #print(" "*11 + " Col 0   Col 1   Col 2") 
 
     for i in range(len(table_data["row_0"])): 
         row_data = table_data["row_" +str(i)]
@@ -72,9 +81,12 @@ def display_board(table_data, is_initial):
         #row_data_col_3 = row_data[2] 
         #print("Row " + str(i) + " "*9 + row_data_col_1 + " "*7 + row_data_col_2 + " "*7 + row_data_col_3 + "\n")
 
-    if is_initial == True:
-        print("You will have up to 4 turns" + "\n"*2)
-        print("You have 4 turns left...\n")
+    turns = (len(table_data["row_0"])**2 ) / 2
+    turns = int(turns)
+
+    if display_code == "initial":
+        print("You will have up to {} turns".format(turns) + "\n"*2)
+        print("You have {} turns left...\n".format(turns))
 
 def check_game_result(data):
     win = False
