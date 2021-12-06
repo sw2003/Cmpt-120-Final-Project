@@ -1,178 +1,195 @@
-total_points = 0
-total_game_counter = 1
+#Even Odd Graphical Game
+#Authors: Sam Wen (Shen Jie Wen) 301466892, Jasper Song
+#December 5th
+
+import helper
+import random
+import createGraphics
+import datetime as dt
 
 table_data = {
     "row_0": [],
     "row_1": [],
-    "row_2": []
+    "row_2": [],
+    "row_3": [], 
 }
 
-def get_initial_data(file):
+user_stats = {
+    "total_points": 0,
+    "plr_wins": 0,
+    "comp_wins": 0,
+    "player_values": [],
+    "ai_values": [],
+    "turn_times": [],
+    "point_history": [],  
+}
+
+#Main Game logic
+def main(game_number):
+    user_stats["player_values"] = []
+    user_stats["turn_times"] = []
+    user_stats["ai_values"] = []
+
+    if game_number == 1:
+        helper.give_start_instructions()
+    preferences = helper.request_user_actions(game_number)
+    if preferences != False:
+        game_style = preferences[0] 
+        
+        initial_board_number = preferences[1]
+        file = open("board{}.csv".format(initial_board_number))
+
+        store_initial_file_data(file)
+
+        helper.display_board(table_data, "initial", "")
+
+        #updates stats / displays result
+        def finish_game(turns, is_early, early_difference):
+            game_result = helper.check_game_result(table_data) 
+            
+            current_game_points = helper.calculate_game_points(turns, table_data)
+            if game_result:
+                user_stats["plr_wins"] += 1
+                user_stats["total_points"] += current_game_points
+            else:
+                user_stats["comp_wins"] += 1
+                user_stats["total_points"] -= current_game_points
+            
+            user_stats["point_history"].append(current_game_points)
+
+            helper.display_game_result(current_game_points, game_result, user_stats["total_points"], turns) 
+
+            x_axis = []
+
+            if is_early:
+                turns = early_difference
+            
+            for i in range(turns):
+                base_string = "Turn {}".format(i+1)
+                x_axis.append(base_string)
+
+            plr_values = user_stats["player_values"]
+            turn_times = user_stats["turn_times"]
+            ai_values = user_stats["ai_values"]
+
+            if len(user_stats["ai_values"]) != 0:
+                createGraphics.create_graph(x_axis, plr_values, turn_times, ai_values)
+            else:
+                createGraphics.create_graph(x_axis, plr_values, turn_times, None)
+                        
+        row_length = len(table_data["row_0"])
+        turns = ((row_length**2) / 2)
+        turns = int(turns)
+
+        correct_inputs = []
+        for j in range(row_length):
+            j = str(j)
+            correct_inputs.append(j)
+
+        correct_inputs.append("99")
+
+        #Turns of the game
+        for i in range(turns,0,-1):
+            time_1 = dt.datetime.now()
+            row_input_correct = False
+            col_input_correct = False
+            val_input_correct = False
+            print("User, where do you want your value? (row 99 - no more turns)\n")
+            row_input = None
+            while row_input_correct == False:
+                user_input = input("row? (>= 0 and <= {}) ==> ".format(row_length-1))
+                user_input = user_input.strip()
+
+                if user_input in correct_inputs:
+                    row_input_correct = True
+                    row_input = user_input
+                else:
+                    print("\nUser, correct row values are from 0 to {}\n".format(row_length-1))
+   
+            #Validates and gets user input
+            if row_input != "99":
+                while col_input_correct == False or val_input_correct == False:
+                    col_input = input("\ncol? (>=0 and <= {}) ==> ".format(row_length-1))
+                    col_input = col_input.strip()
+                    val_input = input("\nvalue (0 to 50): ==> ")
+                    val_input = val_input.strip()
+
+                    for k in range(51):
+                        k = str(k) 
+                        if val_input == k:
+                            val_input_correct = True
+
+                    if col_input in correct_inputs:
+                        col_input_correct = True
+
+                    if col_input_correct == False or val_input_correct == False:
+                        print("\nCorrect row values between 0 and {} and values between 0 and 50".format(row_length-1)) 
+                    
+
+                table_data["row_" + str(row_input)][int(col_input)] = val_input
+                user_stats["player_values"].append(int(val_input))
+            else:
+                print("Since you didn't want to update more values, the game is over\n")
+
+                finish_game(i, True, turns-i)
+                break
+
+            helper.display_board(table_data, "after_user_played", "")
+
+            time_2 = dt.datetime.now()
+            difference = (time_2-time_1).total_seconds()
+            user_stats["turn_times"].append(difference)
+
+            if i != 1:
+                if game_style == "ai":
+                    ai_move()
+
+                print("\nYou have {} turns left...\n".format(int(i)-1))
+            elif i == 1:
+                if game_style == "ai":
+                    ai_move()
+                print("\nYou have reached the maximum turns possible, the game is over!" )
+                finish_game(turns, False, 0)
+
+        play_again = input("\nWould you like to play another game (y/n): ==> ")
+        play_again = play_again.strip().lower()
+
+        #Asks player if they want to play again
+        if play_again == "y":
+            main(game_number+1) 
+        else:
+            helper.display_totals(user_stats)
+            return
+ 
+#Updates dictionary with values from csv file
+def store_initial_file_data(file):
     file.readline()
     counter = 0
     for i in file:
-        data_string = i
         data_list = i.strip("\n ").split(",") 
         table_data["row_" + str(counter)] = data_list
 
         counter += 1
 
-#Prints out row / col values
-def display_table(is_initial):
+#Determines what the ai will do
+def ai_move():
+    print("\nThe computer will play now!") 
+    input("\nHit return to continue") 
 
-    print("\nThe board is")
-    print("-------------\n")
-    if is_initial:
-        print("(initial board)")
-    else:
-        print("(after user played)")
-    print("\n")
-    print(" "*11 + " Col 0   Col 1   Col 2") 
-    for i in range(3): 
-        row_data = table_data["row_" +str(i)]
-        row_data_col_1 = row_data[0] 
-        row_data_col_2 = row_data[1]
-        row_data_col_3 = row_data[2] 
-        print("Row " + str(i) + " "*9 + row_data_col_1 + " "*7 + row_data_col_2 + " "*7 + row_data_col_3)
-        print("")
-    if is_initial:
-        #print("\n")
-        print("You will have up to 4 turns")
-        print("\n"*2)
+    table_parameters = len(table_data["row_0"]) -1 
+    rand_int_row = random.randint(0, table_parameters)
+    rand_int_col = random.randint(0, table_parameters) 
+    rand_value = random.randint(0, 50) 
+    rand_value = str(rand_value)
 
-##Game logic
-print(' Dear player! Welcome to the "Even/Odd Colorful Graphical" game ')
-print(" ============================================================== ")
-print("")
-print("With this system you will be able to play as many games as you want!")
-print("The objective of this game is that rows in board")
-print("add to an even number and all columns in the board add to an odd number")
-print("For each game:")
-print("- you will be able to choose to play 'SOLO' or against the computer ('AI')")
-print("- you will be able to choose an initial board")
-print("- at the end of each game you will win (or lose) points, and")
-print("- you will see a graphical representation of some game related values.")
-print("Enjoy!")
-print("\n"*2)
+    table_data["row_{}".format(rand_int_row)][rand_int_col] = rand_value
+    user_stats["ai_values"].append(int(rand_value))
 
-start_game = input("Would you like to play (y/n) ==> ")
-play_game = False
+    ai_string = "({},{})".format(rand_int_row, rand_int_col)
 
-if start_game == "y":
-    play_game = True
-    print("\nGame: {}\n========".format(total_game_counter))
-else:
-    play_game = False
+    helper.display_board(table_data, "ai", [ai_string, rand_value])
 
-game_style = input("What style would you want to play ('SOLO or 'AI'): ==> ")
-print("\n")
-initial_board = input("Which initial board do you want to use (0, 1, 2, or 3): ==> ") 
-
-file = open("board{}.csv".format(initial_board))
-
-if play_game == True:
-    while play_game == True:
-        get_initial_data(file)
-        display_table(True)
-
-        for i in range(4,0,-1):
-            
-            print("You have {} turns left...\n".format(i))
-            print("User, where do you want your value? (row 99 - no more turns)\n")
-            row_input = input("row? (>= 0 and <= 2) ==> ")
-            print("")
-            col_input = input("col? (>=0 and <= 2) ==> ")
-            print("")
-            val_input = input("value (0 to 50): ==> ")
-
-            #print("The board is\n" + "-"*13)
-
-            ##update the dictionary
-            table_data["row_" + str(row_input)][int(col_input)] = val_input
-
-            display_table(False)
-
-        ## Calculates players points 
-        ## Determines row sum 
-        ## Appends column sums into array
-        sum_even = 0
-        win = False
-        even_rows = False
-        odd_cols = False
-
-        col_sum = [
-            [], # <-- first column 
-            [], # <-- second column
-            [] # <-- third column
-        ]
-
-        for i in table_data:
-            row_sum = 0
-            index = 0
-            for v in table_data[i]:
-                number = int(v) 
-
-                col_sum[index].append(number)
-
-                row_sum += number
-                if number % 2 == 0:
-                    sum_even += number
-                #elif number % 2 == 1:
-
-                index += 1
-            if row_sum % 2 == 0: #<-- determines if the sum of a row is a even number
-                even_rows = True
-            else: 
-                even_rows = False
-
-        #Determining if column sum is a odd number
-        for col_list in col_sum:
-            sum = 0
-
-            for i in col_list:
-                sum += i
-
-            if sum % 2 != 0:
-                odd_cols = True
-            else: 
-                odd_cols = False
-            
-        #Gives user their points
-        points = sum_even / 4
-        print("You reached the maximum turns possible, the game is over! \n")
-        print("Totals for this game\n" + "-"*13 + "\n"*2)
-        print("The points resulting from this game are {}".format(points))
-        print("Points are calculated as:")
-        print("  the sum of all even values in the board")
-        print("  divided by the number of turns played(4)\n")
-
-        #Tells user if they have won and rewards or punishes player
-        if odd_cols and even_rows:
-            total_points += points
-            print("Congratulations, User, you won this game") 
-            print("All rows add to even numbers and all cols add to odd numbers") 
-            print("You will be added {} points from your total".format(points))
-            print("Your points so far are {}".format(total_points))
-
-        else:
-            total_points -= points
-
-            print("So sorry, User, you lost this game!")
-            print("Not all rows add to even numbers or not all cols add to odd numbers!")
-            print("You will be subtracted {} points from your total".format(points))
-            print("Your points so far are {}".format(total_points))
-
-        print("\n"*4)
-
-        #asks player if they want to play again
-
-        continue_playing = input("Would you like to play another game? (y/n) ==> ")
-        if continue_playing != "y":
-            play_game = False
-        else:
-            total_game_counter += 1
-            print("\n"*2)
-            file.seek(1)
+main(1)
 
 
 

@@ -1,3 +1,8 @@
+#Even Odd Graphical Game
+#Authors: Sam Wen, Jasper Song
+#December 5th
+
+#Gives the intro
 def give_start_instructions():
     print(' Dear player! Welcome to the "Even/Odd Colorful Graphical" game ')
     print(" ============================================================== ")
@@ -13,6 +18,7 @@ def give_start_instructions():
     print("Enjoy!")
     print("\n"*2)
 
+#Returns user preferences back to main
 def request_user_actions(game_number):
     start = ""
     if game_number == 1:
@@ -38,7 +44,6 @@ def request_user_actions(game_number):
                     input_type = True
                     user_actions.append(game_style)
                     user_actions.append(initial_board)
-                    #user_actions[game_style, initial_board]
 
             if input_type == False:
                 print("\nPlease correctly type the inputs\n")
@@ -49,6 +54,7 @@ def request_user_actions(game_number):
         print("\nuser has decided not to play the game\n")
         return False
 
+#Formats the data into a table
 def display_board(table_data, display_code, ai_data):
     print("\nThe board is\n" + "-"*10)
     if display_code == "initial":
@@ -64,7 +70,6 @@ def display_board(table_data, display_code, ai_data):
         base_row_string += "Col {}   ".format(i)
 
     print(base_row_string)
-    #print(" "*11 + " Col 0   Col 1   Col 2") 
 
     for i in range(len(table_data["row_0"])): 
         row_data = table_data["row_" +str(i)]
@@ -76,11 +81,6 @@ def display_board(table_data, display_code, ai_data):
 
         print(base_string + "\n")
 
-        #row_data_col_1 = row_data[0] 
-        #row_data_col_2 = row_data[1]
-        #row_data_col_3 = row_data[2] 
-        #print("Row " + str(i) + " "*9 + row_data_col_1 + " "*7 + row_data_col_2 + " "*7 + row_data_col_3 + "\n")
-
     turns = (len(table_data["row_0"])**2 ) / 2
     turns = int(turns)
 
@@ -88,6 +88,8 @@ def display_board(table_data, display_code, ai_data):
         print("You will have up to {} turns".format(turns) + "\n"*2)
         print("You have {} turns left...\n".format(turns))
 
+#Sorts and determines if number is odd or even
+#In addition returns if the player has won or not
 def check_game_result(data):
     win = False
 
@@ -133,6 +135,7 @@ def check_game_result(data):
     else:
         return win
 
+#Calculates points based on params
 def calculate_game_points(turns, data):
     sum = 0
     for k in data:
@@ -146,14 +149,14 @@ def calculate_game_points(turns, data):
     return points
 
 
-
-def display_game_result(points, game_result, total_points):
+#Shows the result of the game
+def display_game_result(points, game_result, total_points, turns):
     print("\nTotals for this game")
     print("--------------------\n")
     print("The points resulting from this game are: {}".format(points))
     print("Points were calculated as:")
     print("  the sum of all even values in the board")
-    print("  divided by the number of turns played(2)")
+    print("  divided by the number of turns played({})".format(turns))
 
     if game_result:
         print("Congratulations, User you won this game!")
@@ -166,6 +169,7 @@ def display_game_result(points, game_result, total_points):
         print("You will be substracted {} points from your total".format(points))
         print("Your points so far are: {}".format(total_points))
 
+#Shows the totals of the game
 def display_totals(user_stats):
     print("\nTOTALS ALL GAMES")
     print("Total points user in all games: {}".format(user_stats["total_points"]))
